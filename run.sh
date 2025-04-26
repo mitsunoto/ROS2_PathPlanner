@@ -5,8 +5,18 @@
 # Скрипт для запуска узла map_visualizer из пакета path_controller
 #=================================================================
 
-DISTROS=(humble iron galactic foxy eloquent dashing rolling)
+set -e
 
+### 0) Вычисляем корень workspace (две папки выше от этого скрипта)
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &>/dev/null && pwd )"
+# SCRIPT_DIR == .../ros2_ws/src/path_controller
+WS_ROOT="$( realpath "${SCRIPT_DIR}/../.." )"
+# WS_ROOT == .../ros2_ws
+
+echo "[run] Workspace root: $WS_ROOT"
+
+### 1) Определяем ROS2-дистрибутив (как у тебя было)
+DISTROS=(humble iron galactic foxy eloquent dashing rolling)
 if [ -n "$ROS_DISTRO" ]; then
   DISTRO="$ROS_DISTRO"
 else
@@ -25,18 +35,24 @@ if [ -z "$DISTRO" ]; then
   exit 1
 fi
 
-# 1. Источник среды ROS 2
+echo "[run] Используем ROS 2-дистрибутив: $DISTRO"
+
+### 2) Source системного ROS2
 source "/opt/ros/$DISTRO/setup.bash"
 
-# 2. Источник локального workspace
-if [ -f "install/setup.bash" ]; then
-  source "install/setup.bash"
-elif [ -f "install/local_setup.bash" ]; then
-  source "install/local_setup.bash"
+### 3) Source workspace (из корня workspace!)
+if [ -f "$WS_ROOT/install/setup.bash" ]; then
+  source "$WS_ROOT/install/setup.bash"
+elif [ -f "$WS_ROOT/install/local_setup.bash" ]; then
+  source "$WS_ROOT/install/local_setup.bash"
 else
-  echo "Ошибка: не найден install/setup.bash или install/local_setup.bash. Сначала выполните 'colcon build'." >&2
+  echo "Ошибка: не найден $WS_ROOT/install/setup.bash или local_setup.bash. Сначала выполните 'colcon build' из корня workspace." >&2
   exit 1
 fi
 
-# 3. Запуск узла map_visualizer
+### 4) Переходим в workspace (необязательно, но безопасно)
+cd "$WS_ROOT"
+
+### 5) Запускаем визуализатор
+echo "[run] Запускаю map_visualizer_app"
 exec ros2 run path_controller map_visualizer_app "$@"
