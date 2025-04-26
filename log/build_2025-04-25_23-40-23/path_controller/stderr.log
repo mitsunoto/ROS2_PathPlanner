@@ -1,8 +1,0 @@
-[01m[K/home/mitsunoto/ros2_ws/src/path_controller/src/map_visualizer.cpp:1217:10:[m[K [01;31m[Kfatal error: [m[Kmap_visualizer.moc: No such file or directory
- 1217 | #include [01;31m[K"map_visualizer.moc"[m[K
-      |          [01;31m[K^~~~~~~~~~~~~~~~~~~~[m[K
-compilation terminated.
-gmake[2]: *** [CMakeFiles/map_visualizer.dir/build.make:90: CMakeFiles/map_visualizer.dir/src/map_visualizer.cpp.o] Error 1
-gmake[1]: *** [CMakeFiles/Makefile2:179: CMakeFiles/map_visualizer.dir/all] Error 2
-gmake[1]: *** Waiting for unfinished jobs....
-gmake: *** [Makefile:146: all] Error 2
