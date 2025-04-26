@@ -39,4 +39,4 @@ else
 fi
 
 # 3. Запуск узла map_visualizer
-exec ros2 run path_controller map_visualizer "$@"
+exec ros2 run path_controller map_visualizer_app "$@"
