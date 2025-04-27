@@ -195,7 +195,7 @@ private:
         if (avoid_danger && cell_value == 1) continue; // Пересеченная местность
         if (cell_value == -1) continue;                // Неизвестный объект
       
-        // Используем шаги, а не стоимость
+        // Длина пути на данный момент
         int path_steps_so_far = steps[y][x] + 1;
       
         if (avoid_danger) {
