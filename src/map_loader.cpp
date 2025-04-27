@@ -63,7 +63,7 @@ private:
       return 0;
   }
 
-    // Загрузка изображения и публикация трех уровней OccupancyGrid
+  // Загрузка изображения и публикация трех уровней OccupancyGrid
   void loadMap(const std::string &file_path) {
     RCLCPP_INFO(this->get_logger(), "Загрузка карты: %s", file_path.c_str());
     cv::Mat image = cv::imread(file_path, cv::IMREAD_COLOR);
@@ -99,7 +99,7 @@ private:
       cv::Vec3b(65, 88, 122)    // (122, 88, 65)   -> height = 10
     };
 
-      // Лямбда для проверки, является ли цвет одним из коричневых оттенков
+    // Лямбда-функция для проверки, является ли цвет одним из коричневых оттенков
     auto isBrownish = [&brownColors](const cv::Vec3b &color) -> bool {
       for (const auto &brown : brownColors) {
         if (color == brown)
@@ -108,7 +108,7 @@ private:
       return false;
     };
 
-      // Заполнение мелкой сетки по цветам (сопоставление цвета с проходимостью)
+    // Заполнение мелкой сетки по цветам (сопоставление цвета с проходимостью)
     for (int cell_y = 0; cell_y < fine_grid_height; ++cell_y) {
       for (int cell_x = 0; cell_x < fine_grid_width; ++cell_x) {
         int pixel_x = cell_x * fine_cell_size + fine_cell_size / 2;
