@@ -5,8 +5,7 @@
 #include <QColor>
 
 // ======================
-// MapVisualizerNode: ROS2-узел, который получает карты, позиции, углы,
-// и обновляет отображение, включая отрисовку запланированных маршрутов на отдельных слоях.
+// MapVisualizerNode: ROS2-узел, который получает карты, позиции, углы и обновляет их отображение на карте
 // ======================
 MapVisualizerNode::MapVisualizerNode(int width, int height, MapWidget *widget)
   : Node("map_visualizer_node")
