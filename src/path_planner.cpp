@@ -197,7 +197,8 @@ private:
       
         // Длина пути на данный момент
         int path_steps_so_far = steps[y][x] + 1;
-      
+
+        // Обработка потенциальной зоны охвата мобильных препятствий
         if (avoid_danger) {
           bool is_dangerous = false;
           for (const auto& obs : mobile_obstacles_) {
