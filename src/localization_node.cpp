@@ -134,36 +134,37 @@ private:
   // Функция триангуляции для двух ориентиров.
   // measured_angles[i] — угол (в радианах) от робота до i-го ориентира.
   // Для вычисления линии от ориентира к роботу используем measured_angle + pi.
-  std::pair<double,double> triangulate(const std::vector<double>& measured_angles) {
-    if (measured_angles.size() < 2) {
+  std::pair<double,double> triangulate(const std::vector<double>& theta) {
+    if (theta.size() < 2) {
       RCLCPP_ERROR(this->get_logger(), "Not enough angles for triangulation");
       return {0.0, 0.0};
     }
     
     // Перебираем все пары ориентиров, пока не найдем подходящую
-    for (size_t i = 0; i < measured_angles.size(); ++i) {
-      for (size_t j = i + 1; j < measured_angles.size(); ++j) {
+    for (size_t i = 0; i < theta.size(); ++i) {
+      for (size_t j = i + 1; j < theta.size(); ++j) {
         Landmark lm1 = landmarks_[i];
         Landmark lm2 = landmarks_[j];
         
-        double phi1 = normalize_angle(measured_angles[i] + M_PI);
-        double phi2 = normalize_angle(measured_angles[j] + M_PI);
+        // Тангенсы измеренных углов
+        double t1 = std::tan(theta[0]);
+        double t2 = std::tan(theta[1]);
+
+        // Координаты ориентиров
+        double x1 = lm1.x; double y1 = lm1.y;
+        double x2 = lm2.x; double y2 = lm2.y;
         
-        double x1 = lm1.x;
-        double y1 = lm1.y;
-        double x2 = lm2.x;
-        double y2 = lm2.y;
-        
-        double denominator = std::cos(phi1)*std::sin(phi2) - std::sin(phi1)*std::cos(phi2);
+        // Проверка на численную устойчивость
         if (std::fabs(denominator) < 1e-6) {
           RCLCPP_WARN(this->get_logger(), "Ориентиры %s и %s лежат на параллельных прямых. Проверка следующей пары.",
                       lm1.id.c_str(), lm2.id.c_str());
           continue;
         }
-        double t = ((x2 - x1) * std::sin(phi2) - (y2 - y1) * std::cos(phi2)) / denominator;
-        double x_robot = x1 + t * std::cos(phi1);
-        double y_robot = y1 + t * std::sin(phi1);
-        return {x_robot, y_robot};
+
+        double x = (y2 - y1 + x1*t1 - x2*t2) / denominator;
+        double y = y1 + t1 * (x - x1);
+
+        return {x, y};
       }
     }
     
