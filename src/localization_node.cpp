@@ -155,6 +155,7 @@ private:
         double x2 = lm2.x; double y2 = lm2.y;
         
         // Проверка на численную устойчивость
+        double denominator = t1 - t2;
         if (std::fabs(denominator) < 1e-6) {
           RCLCPP_WARN(this->get_logger(), "Ориентиры %s и %s лежат на параллельных прямых. Проверка следующей пары.",
                       lm1.id.c_str(), lm2.id.c_str());
