@@ -11,15 +11,15 @@ public:
   GoalHandler()
   : Node("goal_handler")
   {
-    // Declare parameters
+    // Регистрация параметров
     this->declare_parameter<double>("goal_x", 0.0);
     this->declare_parameter<double>("goal_y", 0.0);
     this->declare_parameter<bool>("clear", false);
 
-    // Create publisher for PoseStamped
+    // Инициализациця топика для публикации целевой позиции
     goal_pub_ = this->create_publisher<geometry_msgs::msg::PoseStamped>("goal_pose", 10);
 
-    // Callback on any parameter changes
+    // Регистрация callback-функции на изменение параметров
     param_callback_handle_ = this->add_on_set_parameters_callback(
       [this](const std::vector<rclcpp::Parameter> & params) {
         for (const auto & p : params) {
@@ -42,7 +42,7 @@ public:
           }
         }
 
-        // Publish if needed
+        // Публикация по возможности
         if (goal_x_set_ && goal_y_set_) {
           publishGoal();
         }
@@ -68,11 +68,9 @@ private:
                 goal_x_, goal_y_);
   }
 
-  // Parameters and flags
   double goal_x_{0.0}, goal_y_{0.0};
   bool goal_x_set_{false}, goal_y_set_{false};
 
-  // ROS entities
   rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr goal_pub_;
   rclcpp::node_interfaces::OnSetParametersCallbackHandle::SharedPtr param_callback_handle_;
 };
@@ -86,11 +84,7 @@ int main(int argc, char ** argv)
 {
   signal(SIGTERM, signal_handler);
   rclcpp::init(argc, argv);
-
-  // Instantiate node
   auto node = std::make_shared<GoalHandler>();
-
-  // Spin executor
   rclcpp::executors::SingleThreadedExecutor exec;
   exec.add_node(node);
   exec.spin();
