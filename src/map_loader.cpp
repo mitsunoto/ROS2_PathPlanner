@@ -16,7 +16,7 @@ public:
     RCLCPP_INFO(this->get_logger(), "узел запущен");
 
     rclcpp::QoS latched_qos(10);
-    latched_qos.transient_local();  // теперь последние сообщения в топиках будут храниться
+    latched_qos.transient_local();
 
     // Инициализация топиков для публикации трех уровней детализации карты
     fine_map_pub_ = this->create_publisher<nav_msgs::msg::OccupancyGrid>("map/fine", latched_qos);
