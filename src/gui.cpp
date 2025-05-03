@@ -130,8 +130,7 @@ QMainWindow* createMainWindow(
         QMessageBox::warning(&dialog, "Ошибка", "Номер мелкого уровня 1–25");
         return;
       }
-  
-      // вычисляем x_fine, y_fine по твоей логике
+
       constexpr int F = 25;
       double offsetX = 0.5, offsetY = 0.5;
   
