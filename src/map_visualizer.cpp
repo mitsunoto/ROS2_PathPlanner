@@ -62,7 +62,7 @@ void MapVisualizer::updateMap(const nav_msgs::msg::OccupancyGrid::SharedPtr &map
   // Возвращаем координаты
   painter.translate(-widget_->marginLeft(), -widget_->marginTop());
 
-  // И наконец — оси «снаружи» карты
+  // Рисуем оси снаружи карты
   drawAxes(&painter, map_level);
 
   painter.end();
