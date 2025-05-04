@@ -259,26 +259,18 @@ void MapVisualizer::drawAxes(QPainter *painter, const std::string& map_level) {
 
   RCLCPP_WARN(rclcpp::get_logger("MapVisualizer"), "pixel_size = %f", pixel_size_);
 
-  // Ось X сверху (подписи по центру ячеек)
+  // Ось X сверху
   for (int x = 0, label = 0; x < map_width_; x += step, ++label) {
-    // реальный центр группы клеток
     double centerX = (x + step / 2.0) * pixel_size_;
     int px = marginLeft + static_cast<int>(centerX);
-  
-    // буква-метка вместо цифры
     QChar ch = QChar('A' + (label % 26));
     QString str(ch);
-  
-    // вычисляем ширину текста и корректируем, чтобы центрировать
     int textW = fm.horizontalAdvance(str);
-  
-    // Y‑координата над полосой (например, в середине верхнего отступа)
     int py = marginTop - marginTop / 2;
-  
     painter->drawText(px - textW / 2, py, str);
 }
 
-  // Ось Y слева: подписи по центру клеток
+  // Ось Y слева
   for (int y = 0, label = 0; y < map_height_; y += step, ++label) {
     double centerY = (y + step / 2.0) * pixel_size_;
     double baselineY = marginTop + centerY + (fm.ascent() - fm.descent()) / 2.0;
