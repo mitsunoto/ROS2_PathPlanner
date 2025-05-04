@@ -132,8 +132,7 @@ private:
   }
 
   // Функция триангуляции для двух ориентиров.
-  // measured_angles[i] — угол (в радианах) от робота до i-го ориентира.
-  // Для вычисления линии от ориентира к роботу используем measured_angle + pi.
+  // theta[i] — угол (в радианах) от робота до i-го ориентира
   std::pair<double,double> triangulate(const std::vector<double>& theta) {
     if (theta.size() < 2) {
       RCLCPP_ERROR(this->get_logger(), "Not enough angles for triangulation");
