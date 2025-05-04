@@ -143,7 +143,7 @@ void MapVisualizer::updatePaths(const nav_msgs::msg::Path::SharedPtr &paths_msg,
     int y = static_cast<int>(std::round(y_real));
   
     if (x < 0 || x >= fine_map_width_ || y < 0 || y >= fine_map_height_) {
-      RCLCPP_WARN(rclcpp::get_logger("MapVisualizer"), "[%zu] Skipped: out of map bounds (map size: %d x %d)", index, fine_map_width_, fine_map_height_);
+      RCLCPP_WARN(rclcpp::get_logger("MapVisualizer"), "[%zu] Пропущено: за пределами карты (размер карты: %d x %d)", index, fine_map_width_, fine_map_height_);
       ++index;
       continue;
     }
