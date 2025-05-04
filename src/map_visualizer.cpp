@@ -280,18 +280,11 @@ void MapVisualizer::drawAxes(QPainter *painter, const std::string& map_level) {
 
   // Ось Y слева: подписи по центру клеток
   for (int y = 0, label = 0; y < map_height_; y += step, ++label) {
-    // центр группы клеток по Y
     double centerY = (y + step / 2.0) * pixel_size_;
-    // вычисляем положение базовой линии так, чтобы текст оказался вертикально выровнен по центру
     double baselineY = marginTop + centerY + (fm.ascent() - fm.descent()) / 2.0;
-
     QString str = QString::number(label);
-    // ширина текста, чтобы сдвинуть его вправо или влево
     int textW = fm.horizontalAdvance(str);
-
-    // Х‑координата линии оси Y (например, на половине левого отступа)
     int px = marginLeft - marginLeft / 2;
-    // рисуем так, чтобы правый край текста лежал на px
     painter->drawText(px - textW, int(baselineY), str);
   }
 
