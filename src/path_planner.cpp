@@ -179,7 +179,7 @@ private:
       }
 
       if (++step_count > MAX_STEPS) {
-        RCLCPP_ERROR(this->get_logger(), "Exceeded maximum step count; path not found!");
+        RCLCPP_ERROR(this->get_logger(), "Достигнуто максимальное количество шагов; путь не найден!");
         break;
       }
 
